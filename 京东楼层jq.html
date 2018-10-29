@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>京东楼层效果</title>
+	</head>
+
+	<body>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			.box {
+				width: 500px;
+				margin: 0 auto;
+			}
+			
+			.footr {
+				background-color: blue;
+				margin-bottom: 10px;
+				height: 400px;
+			}
+			
+			ul {
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+				position: fixed;
+				left: 0;
+				top: 30%;
+				display: none;
+			}
+			
+			ul li {
+				line-height: 50px;
+				text-align: center;
+				width: 100px;
+				background-color: yellow;
+			}
+			
+			.dingbu {
+				height: 400px;
+				background-color: pink;
+				margin-bottom: 10px;
+			}
+			
+			ul li.cur {
+				background-color: blue;
+			}
+		</style>
+		<ul>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+		<div class="box">
+
+			<div class="dingbu">
+				顶部
+			</div>
+			<div class="footr">
+				1
+			</div>
+			<div class="footr">
+				2
+			</div>
+			<div class="footr">
+				3
+			</div>
+			<div class="footr">
+				4
+			</div>
+			<div class="footr">
+				5
+			</div>
+			<div class="dingbu">
+				顶部
+			</div>
+			<div class="dingbu">
+				顶部
+			</div>
+			<div class="dingbu">
+				顶部
+			</div>
+		</div>
+
+	</body>
+	<script src="js/jquery.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			//获取滚动条滚动事件
+			$(window).scroll(function(event) {
+				//获取滚动的高度		
+				var scrollTop = $(window).scrollTop();
+				//判断滚动到第一个.footr的静位置 ul显示
+				if(scrollTop > $(".footr").eq(0).offset().top - 200) {
+					$("ul").stop(true).fadeIn();
+				} else {
+					$("ul").stop(true).fadeOut()
+				};
+				//遍历滚动.footr的静位置 让楼层追加样式
+				$(".footr").each(function(i) {
+					if(scrollTop >= $(this).offset().top - 100) {
+						$("ul li").eq(i).addClass("cur").siblings().removeClass("cur");
+					}
+				});
+			});
+
+			//遍历楼层点击事件
+			$("ul li").each(function(i) {
+				$(this).click(function() {
+					//使楼层滚动到相对应的位置
+					$('body,html').animate({
+						scrollTop: $(".footr").eq($(this).index()).offset().top
+					}, 1000)
+				})
+			});
+
+		})
+	</script>
+
+</html>
